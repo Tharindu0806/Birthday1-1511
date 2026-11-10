@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fff0f5">
+<title>A Little Birthday Surprise</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+:root{--pink:#ff7fa8;--deep:#b83f70;--cream:#fff8f2;--ink:#563849}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:'DM Sans',sans-serif;color:var(--ink);background:radial-gradient(circle at 15% 15%,#fff 0 2px,transparent 3px),linear-gradient(135deg,#ffe8f0,#fff5e9 55%,#f8e8ff);overflow-x:hidden}
+button{font:inherit;cursor:pointer;border:0}
+.page{min-height:100svh;display:none;align-items:center;justify-content:center;padding:28px 18px;position:relative;overflow-y:auto;overflow-x:hidden}
+.page.active{display:flex;animation:appear .65s ease both}
+@keyframes appear{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.card{width:min(680px,100%);text-align:center;padding:clamp(22px,5vw,45px);border:1px solid #ffffffc9;border-radius:30px;background:#ffffffb8;box-shadow:0 22px 70px #a54e7020;backdrop-filter:blur(12px);position:relative;z-index:2;margin:auto}
+.eyebrow{text-transform:uppercase;letter-spacing:.22em;font-size:.72rem;font-weight:700;color:var(--deep)}
+h1,h2{font-family:'Playfair Display',serif;line-height:1.08;margin:14px 0;color:#773b59}
+h1{font-size:clamp(2.5rem,8vw,5rem)}h2{font-size:clamp(2rem,6vw,3.4rem)}
+p{line-height:1.75;color:#765b69}
+.script{font-family:'Playfair Display',serif;font-style:italic;color:var(--deep)}
+.primary{margin-top:20px;padding:14px 25px;border-radius:999px;color:white;font-weight:700;background:linear-gradient(120deg,#ff8bad,#d95d91);box-shadow:0 9px 22px #d95d9140;transition:.2s}
+.primary:hover{transform:translateY(-3px);box-shadow:0 13px 26px #d95d9155}
+.secondary{background:#fff;color:var(--deep);border:1px solid #f2b8cc;margin-left:8px}
+.envelope{width:190px;height:135px;margin:35px auto 20px;position:relative;background:#f5a9c2;border-radius:9px;box-shadow:0 16px 30px #9d557233;cursor:pointer}
+.envelope:before{content:"";position:absolute;inset:0;background:#f9c3d4;clip-path:polygon(0 0,50% 58%,100% 0);border-radius:9px 9px 0 0}
+.envelope:after{content:"♥";position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);font-size:32px;color:white;text-shadow:0 2px 8px #bd527a}
+.envelope span{position:absolute;inset:auto 0 0;height:70%;background:#ee8fb0;clip-path:polygon(0 100%,50% 28%,100% 100%);border-radius:0 0 9px 9px}
+.floating{position:absolute;pointer-events:none;opacity:.55;animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-22px) rotate(7deg)}}
+.balloon{font-size:clamp(35px,7vw,65px)}
+.confetti{position:fixed;top:-15px;width:9px;height:13px;border-radius:3px;z-index:5;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.2}}
+.cake{font-size:clamp(100px,24vw,165px);filter:drop-shadow(0 14px 14px #9b4b5930);margin:10px 0}
+.candle-note{font-size:.9rem;background:#fff5f8;padding:12px 16px;border-radius:14px;display:inline-block}
+.photo-grid-wrap{max-height:450px;overflow-y:auto;overflow-x:hidden;padding:12px 10px 18px;margin:18px 0 12px;border-radius:20px;background:rgba(255,245,248,.4);box-shadow:inset 0 2px 8px rgba(184,63,112,.05);scrollbar-width:thin;scrollbar-color:#f5a9c2 #fff0f5}
+.photo-grid-wrap::-webkit-scrollbar{width:6px}
+.photo-grid-wrap::-webkit-scrollbar-track{background:#fff0f5;border-radius:10px}
+.photo-grid-wrap::-webkit-scrollbar-thumb{background:#f5a9c2;border-radius:10px}
+.photo-grid-wrap::-webkit-scrollbar-thumb:hover{background:var(--pink)}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;padding:4px}
+.photo{aspect-ratio:3/4;border:8px solid white;border-bottom-width:25px;border-radius:6px;background:linear-gradient(145deg,#fbd2df,#f9e6c9);box-shadow:0 8px 18px #854c5a20;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
+.photo:nth-child(1){transform:rotate(-2.5deg)}
+.photo:nth-child(2){transform:rotate(2.5deg) translateY(4px)}
+.photo:nth-child(3){transform:rotate(-1.5deg)}
+.photo:nth-child(4){transform:rotate(2deg)}
+.photo:nth-child(5){transform:rotate(-2deg) translateY(3px)}
+.photo:nth-child(6){transform:rotate(2.2deg)}
+.photo:nth-child(7){transform:rotate(-1.8deg)}
+.photo:nth-child(8){transform:rotate(2.5deg) translateY(4px)}
+.photo:nth-child(9){transform:rotate(-2.2deg)}
+.photo:hover{transform:scale(1.05) rotate(0deg);box-shadow:0 14px 26px #854c5a35;z-index:5}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .placeholder{font-size:clamp(1.6rem,4vw,2.2rem);user-select:none}
+input[type=file]{display:none}
+.message{font-size:1.08rem;max-width:490px;margin:18px auto}
+.progress{position:fixed;bottom:15px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:10}
+.dot{width:7px;height:7px;border-radius:20px;background:#dca6b9;transition:.3s}.dot.on{width:23px;background:#c34e7d}
+.music{position:fixed;top:15px;right:15px;z-index:20;border-radius:50px;background:#ffffffd9;color:#9c456a;padding:10px 14px;box-shadow:0 5px 18px #7d405020;font-size:.9rem;font-weight:600}
+.footer{font-size:.78rem;color:#a17b8c;margin-top:22px}
+@media(max-width:520px){.photo-grid{gap:8px}.photo{border-width:5px;border-bottom-width:18px}.photo-grid-wrap{max-height:360px;padding:8px 6px 12px}.card{border-radius:23px;padding:22px 14px}.secondary{margin-left:0;margin-top:9px}}
+</style>
+</head>
+<body>
+<button class="music" id="musicBtn" onclick="toggleMusic()">⏸ Pause music</button>
+<audio id="bgMusic" autoplay loop preload="auto" src="music/birthday-song.mp3">
+  <source src="music/birthday-song.mp3" type="audio/mpeg">
+</audio>
+
+<section class="page active" id="p1">
+  <span class="floating balloon" style="left:8%;top:15%">🎈</span><span class="floating" style="right:9%;top:20%;font-size:35px">✦</span>
+  <div class="card">
+    <div class="eyebrow">A little surprise is waiting</div>
+    <div class="envelope" onclick="go(2)" aria-label="Open birthday envelope"><span></span></div>
+    <h1>For someone<br><span class="script">wonderful...</span></h1>
+    <p>There is a little something here, made just for you.</p>
+    <button class="primary" onclick="go(2)">Open your surprise ✨</button>
+    <div class="footer">A tiny link, a big celebration ♡</div>
+  </div>
+</section>
+
+<section class="page" id="p2">
+  <span class="floating balloon" style="left:5%;top:12%">🎈</span><span class="floating balloon" style="right:6%;bottom:12%;animation-delay:1s">🎈</span>
+  <div class="card">
+    <div class="eyebrow">Today is all about you</div>
+    <h1>Happy Birthday!</h1>
+    <p class="script" style="font-size:1.45rem">A day as lovely as your heart.</p>
+    <p>May your day be filled with laughter, beautiful surprises, and all the little things that make you happy.</p>
+    <button class="primary" onclick="confetti();go(3)">Let the magic begin ✨</button>
+  </div>
+</section>
+
+<section class="page" id="p3">
+  <div class="card">
+    <div class="eyebrow">Close your eyes and make a wish</div>
+    <h2>Your birthday moment</h2>
+    <div class="cake">🎂</div>
+    <p class="candle-note">One special wish. Endless possibilities. 💗</p>
+    <p>May this new chapter bring you wonderful adventures and reasons to smile.</p>
+    <button class="primary" onclick="confetti();go(4)">See our memories →</button>
+  </div>
+</section>
+
+<section class="page" id="p4">
+  <div class="card">
+    <div class="eyebrow">Little moments, lovely memories</div>
+    <h2>Our memory corner</h2>
+    <p>Add your favourite photos to make this card truly personal.<br><small style="color:#a17b8c">Scroll down to explore all 9 memories ✨</small></p>
+    <div class="photo-grid-wrap">
+      <div class="photo-grid">
+        <label class="photo" for="photo1" title="Click to change photo 1">
+          <span class="placeholder">📷</span>
+          <img id="img1" src="image1/photo1.jpg" alt="Photo 1" onerror="tryAlternativeImage(this,1)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo2" title="Click to change photo 2">
+          <span class="placeholder">🌷</span>
+          <img id="img2" src="image1/photo2.jpg" alt="Photo 2" onerror="tryAlternativeImage(this,2)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo3" title="Click to change photo 3">
+          <span class="placeholder">💖</span>
+          <img id="img3" src="image1/photo3.jpg" alt="Photo 3" onerror="tryAlternativeImage(this,3)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo4" title="Click to change photo 4">
+          <span class="placeholder">🌟</span>
+          <img id="img4" src="image1/photo4.jpg" alt="Photo 4" onerror="tryAlternativeImage(this,4)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo5" title="Click to change photo 5">
+          <span class="placeholder">🎂</span>
+          <img id="img5" src="image1/photo5.jpg" alt="Photo 5" onerror="tryAlternativeImage(this,5)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo6" title="Click to change photo 6">
+          <span class="placeholder">💌</span>
+          <img id="img6" src="image1/photo6.jpg" alt="Photo 6" onerror="tryAlternativeImage(this,6)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo7" title="Click to change photo 7">
+          <span class="placeholder">✨</span>
+          <img id="img7" src="image1/photo7.jpg" alt="Photo 7" onerror="tryAlternativeImage(this,7)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo8" title="Click to change photo 8">
+          <span class="placeholder">🌸</span>
+          <img id="img8" src="image1/photo8.jpg" alt="Photo 8" onerror="tryAlternativeImage(this,8)" onload="onImageLoaded(this)" hidden>
+        </label>
+        <label class="photo" for="photo9" title="Click to change photo 9">
+          <span class="placeholder">🎈</span>
+          <img id="img9" src="image1/photo9.jpg" alt="Photo 9" onerror="tryAlternativeImage(this,9)" onload="onImageLoaded(this)" hidden>
+        </label>
+      </div>
+    </div>
+    <input type="file" id="photo1" accept="image/*" onchange="loadPhoto(event,1)">
+    <input type="file" id="photo2" accept="image/*" onchange="loadPhoto(event,2)">
+    <input type="file" id="photo3" accept="image/*" onchange="loadPhoto(event,3)">
+    <input type="file" id="photo4" accept="image/*" onchange="loadPhoto(event,4)">
+    <input type="file" id="photo5" accept="image/*" onchange="loadPhoto(event,5)">
+    <input type="file" id="photo6" accept="image/*" onchange="loadPhoto(event,6)">
+    <input type="file" id="photo7" accept="image/*" onchange="loadPhoto(event,7)">
+    <input type="file" id="photo8" accept="image/*" onchange="loadPhoto(event,8)">
+    <input type="file" id="photo9" accept="image/*" onchange="loadPhoto(event,9)">
+    <button class="primary" onclick="go(5)">One last thing 💌</button>
+  </div>
+</section>
+
+<section class="page" id="p5">
+  <span class="floating" style="left:10%;top:15%;font-size:38px">💗</span><span class="floating" style="right:10%;bottom:15%;font-size:38px">✨</span>
+  <div class="card">
+    <div class="eyebrow">A message from the heart</div>
+    <h2>Keep shining,<br><span class="script">beautiful soul.</span></h2>
+    <p class="message">I hope you always find reasons to smile, courage to follow your dreams, and people who make life brighter. Thank you for being wonderfully you. Wishing you a birthday filled with love, joy and unforgettable moments.</p>
+    <p class="script" style="font-size:1.35rem">With lots of love ♡</p>
+    <button class="primary" onclick="confetti()">Celebrate again 🎉</button>
+    <button class="primary secondary" onclick="go(1)">Replay the surprise</button>
+    <div class="footer">Made with love, just for you.</div>
+  </div>
+</section>
+
+<div class="progress" id="progress"><span class="dot on"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<script>
+let current=1;
+const audio = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+let userManuallyPaused = false;
+
+// Synchronize button text with actual audio playback state
+audio.addEventListener('play', () => {
+  musicBtn.textContent = '⏸ Pause music';
+});
+audio.addEventListener('pause', () => {
+  musicBtn.textContent = '▶ Play music';
+});
+
+function tryPlay(){
+  if(userManuallyPaused) return;
+  const p = audio.play();
+  if(p !== undefined){
+    p.then(() => {
+      musicBtn.textContent = '⏸ Pause music';
+    }).catch(() => {
+      // If browser blocked unmuted autoplay on refresh until interaction
+      if(!userManuallyPaused){
+        musicBtn.textContent = '▶ Play music';
+      }
+    });
+  }
+}
+
+function toggleMusic(){
+  if(!audio.src && !audio.querySelector('source')){
+    alert('Add birthday-song.mp3 into the "music" folder.');
+    return;
+  }
+  if(audio.paused){
+    userManuallyPaused = false;
+    audio.play().catch(e => console.log('Playback error:', e));
+  }else{
+    userManuallyPaused = true;
+    audio.pause();
+  }
+}
+
+function go(n){
+  document.getElementById('p'+current).classList.remove('active');
+  current=n; document.getElementById('p'+current).classList.add('active');
+  [...document.querySelectorAll('.dot')].forEach((d,i)=>d.classList.toggle('on',i===n-1));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(audio.paused && !userManuallyPaused){
+    tryPlay();
+  }
+}
+function confetti(){
+  const colors=['#ff80a8','#ffd166','#b69cff','#8ed9c2','#ffb36b'];
+  for(let i=0;i<65;i++){
+    const el=document.createElement('i');el.className='confetti';
+    el.style.left=Math.random()*100+'vw';el.style.background=colors[Math.floor(Math.random()*colors.length)];
+    el.style.animationDuration=(2.5+Math.random()*3)+'s';el.style.animationDelay=Math.random()*.8+'s';
+    document.body.appendChild(el);setTimeout(()=>el.remove(),6500);
+  }
+}
+function tryAlternativeImage(img, idx, step = 0){
+  const formats = [
+    `image1/photo${idx}.png`,
+    `image1/photo${idx}.jpeg`,
+    `image1/photo${idx}.webp`,
+    `image1/${idx}.jpg`,
+    `image1/${idx}.png`,
+    `image1/${idx}.jpeg`
+  ];
+  if(step < formats.length){
+    img.onerror = () => tryAlternativeImage(img, idx, step + 1);
+    img.src = formats[step];
+  }else{
+    img.hidden = true;
+    if(img.previousElementSibling){
+      img.previousElementSibling.hidden = false;
+    }
+  }
+}
+
+function onImageLoaded(img){
+  img.hidden = false;
+  if(img.previousElementSibling){
+    img.previousElementSibling.hidden = true;
+  }
+}
+
+function loadPhoto(e,n){
+  const file=e.target.files[0];if(!file)return;
+  const img=document.getElementById('img'+n);
+  if(!img)return;
+  img.src=URL.createObjectURL(file);
+  img.hidden=false;
+  if(img.previousElementSibling){
+    img.previousElementSibling.hidden=true;
+  }
+}
+
+// 1. Attempt autoplay immediately on reload
+tryPlay();
+window.addEventListener('DOMContentLoaded', tryPlay);
+window.addEventListener('load', tryPlay);
+
+// 2. Fallback: start on first user interaction anywhere if browser policy delayed it
+const playOnFirstGesture = () => {
+  if(audio.paused && !userManuallyPaused){
+    tryPlay();
+  }
+};
+['click', 'pointerdown', 'touchstart', 'keydown'].forEach(evt => {
+  window.addEventListener(evt, playOnFirstGesture, {once:true});
+});
+</script>
+</body>
+</html>
